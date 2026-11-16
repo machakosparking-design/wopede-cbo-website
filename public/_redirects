@@ -1,0 +1,3 @@
+# Cloudflare Pages / Static SPA redirect rule
+# Ensures direct navigation to /about, /programs, /contact, etc. loads index.html
+/*    /index.html   200
