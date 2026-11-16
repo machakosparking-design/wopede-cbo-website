@@ -1,5 +1,3 @@
-# Netlify CMS admin redirect
-/admin/* /admin/index.html 200
-
-# API routes for CMS data
-/api/cms/* /.netlify/functions/:splat 200
+# Cloudflare Pages / Static SPA redirect rule
+# Ensures direct navigation to /about, /programs, /contact, etc. loads index.html
+/*    /index.html   200
