@@ -1,0 +1,5 @@
+# Netlify CMS admin redirect
+/admin/* /admin/index.html 200
+
+# API routes for CMS data
+/api/cms/* /.netlify/functions/:splat 200
