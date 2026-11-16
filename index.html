@@ -16,7 +16,8 @@
     <meta name="author" content="WOPEDE CBO" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/assets/favicon.png" />
+    <link rel="icon" type="image/png" href="./assets/favicon.png" />
+    <link rel="shortcut icon" href="./favicon.ico" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -29,13 +30,11 @@
       property="og:description"
       content="Empowering women through skills training and support to become self-reliant agents of peace in their communities."
     />
-    <!-- Primary hero image for social sharing (prioritized) -->
     <meta property="og:image" content="https://www.wopedecbo.org/assets/logo.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="WOPEDE - Empowering women for peace and development" />
-
     <meta property="og:site_name" content="WOPEDE" />
     <meta property="og:locale" content="en_US" />
 
@@ -50,16 +49,66 @@
       name="twitter:description"
       content="Empowering women through skills training and support to become self-reliant agents of peace in their communities."
     />
-    <!-- Hero image for Twitter (single image for consistency) -->
     <meta name="twitter:image" content="https://www.wopedecbo.org/assets/logo.png" />
     <meta name="twitter:image:alt" content="WOPEDE - Empowering women for peace and development" />
 
     <link rel="canonical" href="https://www.wopedecbo.org/" />
-    <script type="module" crossorigin src="/assets/index-BcKtUyGM.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index--I1mYjd_.css">
+
+    <!-- GitHub Pages subpath & SPA helper (universal compatibility for github.io and custom domains) -->
+    <script>
+      (function() {
+        const repo = '/wopede-cbo-website';
+        if (window.location.pathname.startsWith(repo)) {
+          const subpath = window.location.pathname.slice(repo.length) || '/';
+          window.history.replaceState(null, '', subpath + window.location.search + window.location.hash);
+
+          const origPush = history.pushState;
+          const origReplace = history.replaceState;
+          history.pushState = function(state, title, url) {
+            if (typeof url === 'string' && url.startsWith('/') && !url.startsWith(repo)) {
+              url = repo + url;
+            }
+            return origPush.call(history, state, title, url);
+          };
+          history.replaceState = function(state, title, url) {
+            if (typeof url === 'string' && url.startsWith('/') && !url.startsWith(repo)) {
+              url = repo + url;
+            }
+            return origReplace.call(history, state, title, url);
+          };
+
+          const patchNode = function(node) {
+            if (node.nodeType === 1) {
+              const tag = node.tagName.toLowerCase();
+              if ((tag === 'img' || tag === 'source' || tag === 'video') && node.getAttribute('src')) {
+                const s = node.getAttribute('src');
+                if (s.startsWith('/assets/')) node.setAttribute('src', repo + s);
+              }
+              const els = node.querySelectorAll ? node.querySelectorAll('img[src^="/assets/"], video[src^="/assets/"], source[src^="/assets/"]') : [];
+              els.forEach(function(el) {
+                el.setAttribute('src', repo + el.getAttribute('src'));
+              });
+            }
+          };
+
+          const observer = new MutationObserver(function(mutations) {
+            for (var i = 0; i < mutations.length; i++) {
+              var m = mutations[i];
+              for (var j = 0; j < m.addedNodes.length; j++) {
+                patchNode(m.addedNodes[j]);
+              }
+            }
+          });
+          observer.observe(document.documentElement, { childList: true, subtree: true });
+        }
+      })();
+    </script>
+
+    <script type="module" crossorigin src="./assets/index-BcKtUyGM.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index--I1mYjd_.css">
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root"></div>
   </body>
 </html>
